@@ -1,10 +1,6 @@
 from django.shortcuts import render
 import requests
-import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+from django.conf import settings
 
 def index(request):
     articles = []
@@ -14,7 +10,7 @@ def index(request):
         keyword = request.POST.get("keyword")
 
         if keyword:
-            api_key = os.getenv("NEWS_API_KEY")
+            api_key = settings.NEWS_API_KEY
 
             # Handle missing API key
             if not api_key:
