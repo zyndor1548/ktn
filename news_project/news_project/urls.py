@@ -21,4 +21,5 @@ from news import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
+    path("india/", views.india_news, name="india_news"),
 ]

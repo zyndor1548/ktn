@@ -1,6 +1,30 @@
 from django.shortcuts import render
 import requests
+import xml.etree.ElementTree as ET
 from django.conf import settings
+
+def fetch_toi_news():
+    url = "https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        root = ET.fromstring(response.content)
+        
+        articles = []
+        for item in root.findall(".//item"):
+            title = item.find("title").text if item.find("title") is not None else "No Title"
+            description = item.find("description").text if item.find("description") is not None else ""
+            link = item.find("link").text if item.find("link") is not None else "#"
+                        
+            articles.append({
+                "title": title,
+                "description": description,
+                "url": link
+            })
+        return articles
+    except Exception as e:
+        print(f"Error fetching TOI news: {e}")
+        return []
 
 def index(request):
     articles = []
@@ -24,4 +48,10 @@ def index(request):
     return render(request, "news/index.html", {
         "articles": articles,
         "error": error
+    })
+
+def india_news(request):
+    articles = fetch_toi_news()
+    return render(request, "news/india.html", {
+        "articles": articles
     })

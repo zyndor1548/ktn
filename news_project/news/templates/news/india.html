@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>News Search</title>
+	<title>India News - Times of India</title>
 	<link rel="stylesheet" href="{% static 'news/style.css' %}">
 </head>
 
@@ -16,29 +16,21 @@
 		<a href="{% url 'india_news' %}">India News</a>
 	</nav>
 	<div class="task_adder">
-		<h1>News Search</h1>
-		<form method="POST" class="search-form">
-			{% csrf_token %}
-			<input type="text" name="keyword" placeholder="Enter keyword" required>
-			<button type="submit">Search</button>
-		</form>
+		<h1>India News From Times of India</h1>
 	</div>
 	<h2>Results:</h2>
 	{% if articles %}
 	{% for article in articles %}
 	<div class="added">
 		<li class="article">
-			{% if article.urlToImage %}
-			<img src="{{ article.urlToImage }}" alt="{{ article.title }}">
-			{% endif %}
 			<h3>{{ article.title }}</h3>
-			<p>{{ article.description }}</p>
+			<p>{{ article.description|safe }}</p>
 			<a href="{{ article.url }}" target="_blank">Read more</a>
 		</li>
 	</div>
 	{% endfor %}
 	{% else %}
-	<p>No articles found. Try searching for a different keyword.</p>
+	<p>No India news found at the moment.</p>
 	{% endif %}
 </body>
 
